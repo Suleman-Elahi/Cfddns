@@ -26,6 +26,7 @@ Open it with a text editor and change the path to the script and path to the pyt
 Next, just double click on the bat file and a task will be created.
 
 ![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1681814326/taskschcfddns.png)
+
 This task will run hourly, but you can also tweak the schedule to make it run at desired schedule.
 ## 3. Run as a Docker Container
 There is a Dockerfile so that you can make it run as a docker container.
