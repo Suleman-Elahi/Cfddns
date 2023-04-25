@@ -40,6 +40,7 @@ zone_id = get_zone_id(re.sub(r'^.+?\.(?=[^\.]+\.[^\.]+$)', '', domain), api_key,
 
 if not zone_id:
     print(f"Zone ID for {domain} not found")
+    sys.exit(0)
 
 response = requests.get(CF_ZONE_URL + f"{zone_id}/dns_records", headers=headers)
 
@@ -53,6 +54,7 @@ if response.status_code == 200:
             break
 else:
     print('Error fetching DNS records:', response.text)
+    sys.exit(0)
 
 if ip == existing_IP:
     print("Nothign needs to be done..")
