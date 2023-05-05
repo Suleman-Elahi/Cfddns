@@ -9,7 +9,7 @@ I couldn't find a decent tool to dynamically update IP address in my Cloudflare 
 There are various ways to set it up.
 
 ## 1. Run Directly
-Perhaps the easiest way. Run the script directly if you have Python and `requests` library installed.
+Perhaps the easiest way. Run the script directly if you have Python and `requests` library installed. Or, grab one of the binary releases if you don't want to install Python and dependencies.
 
 **Run it like this**:
 
