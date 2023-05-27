@@ -9,8 +9,10 @@ requests.packages.urllib3.util.connection.HAS_IPV6 = False
 record_id = ''
 domain = sys.argv[1]
 api_key = sys.argv[2]
+record_type = sys.argv[3]
 existing_IP = ''
-
+ip = ''
+post_data = ''
 CF_ZONE_URL = 'https://api.cloudflare.com/client/v4/zones/'
 CF_TRACE = 'https://cloudflare.com/cdn-cgi/trace' 
 #######################################################################################
@@ -33,8 +35,19 @@ def get_public_ip():
    response = requests.get(CF_TRACE)
    match = re.search(r'^ip=([\d\.]+)', response.text, re.MULTILINE)
    return match.group(1).strip()
-   
-ip = get_public_ip()
+
+def get_public_ipv6():
+   ipv6_pattern = re.compile(r'ip=([a-fA-F0-9:]+)')
+   response = requests.get(CF_TRACE)
+   match = ipv6_pattern.search(response.text, re.MULTILINE)
+   return match.group(1).strip()
+
+if record_type.upper() in ['A','MX','NS']:
+   ip = get_public_ip()
+else:
+   requests.packages.urllib3.util.connection.HAS_IPV6 = True
+   ip = get_public_ipv6()
+   requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 zone_id = get_zone_id(re.sub(r'^.+?\.(?=[^\.]+\.[^\.]+$)', '', domain), api_key, headers)
 
@@ -48,7 +61,7 @@ if response.status_code == 200:
     # find the record ID for the first A record for the supplied domain name
     dns_records = json.loads(response.text)['result']
     for record in dns_records:
-        if record['type'] == 'A' and record['name'] == domain:
+        if record['type'] == record_type.upper() and record['name'] == domain:
             record_id = record['id']
             existing_IP = record['content']
             break
@@ -59,19 +72,18 @@ else:
 if ip == existing_IP:
     print("Nothign needs to be done..")
     sys.exit(0)
-	
-# Set the JSON data to update record value
-new_data = {
-  "content": ip,
-  "name": domain,
-  "proxied": False,
-  "type": "A",
-  "comment": "DDNS Record from Docker",
-  "ttl": 0
-}
 
+post_data = {
+	
+    "content": ip,
+    "name": domain,
+    "proxied": False,
+    "type": record_type.upper(),
+    "comment": "DDNS Record updated using Cfddns",
+    "ttl": 0
+}
 # Update the record via PUT request
-response = requests.put(CF_ZONE_URL + f"{zone_id}/dns_records/{record_id}", headers=headers, data=json.dumps(new_data))
+response = requests.put(CF_ZONE_URL + f"{zone_id}/dns_records/{record_id}", headers=headers, data=json.dumps(post_data))
 
 if response.status_code == 200:
     print('Record updated successfully')
