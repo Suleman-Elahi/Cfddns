@@ -13,11 +13,11 @@ Perhaps the easiest way. Run the script directly if you have Python and `request
 
 **Run it like this**:
 
-    python3 cfddns.py domain api_key
+    python3 cfddns.py <**Domain**> <**API_Key**> <**Record_Type**> 
 
 Example:
 
-    python3 cfddns.py test.example.com sjdgbueioengfai-sdfjkbf
+    python3 cfddns.py test.example.com sjdgbueioengfai-sdfjkbf A
 ![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1681815038/cfddns_action.png)
 ## 2. Via Task Scheduler on Windows
 I have already provided the `task.scheduler.bat` file in the repository.
