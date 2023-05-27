@@ -38,8 +38,9 @@ Here's how.
 
  1. Clone the repo: `git clone https://github.com/Suleman-Elahi/Cfddns`
  2. Change directory: `cd Cfddns`
- 3. Build image: `docker build -t cfddns .`
- 4. Run the container: `docker run -d --name cfddns --restart=always cfddns`
+ 3. Edit the **crontab** file. Enter your API Key, Record Type to update, and domain.
+ 4. Build image: `docker build -t cfddns .`
+ 5. Run the container: `docker run -d --name cfddns --restart=always cfddns`
  
  Or, you can also run it in interactive mode:
 
