@@ -1,5 +1,8 @@
 
 # Cfddns
+
+![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1686394440/Cfddns.png)
+
 A no nonsense python script to treat Cloudflare as a dynamic DNS. Run as Docker container/scheduled task.
 
 I couldn't find a decent tool to dynamically update IP address in my Cloudflare account, so I created this one here. It is based on Cloudflare and by default is set to update the IP address hourly. But the schedule can be changed and record type as well.
@@ -13,7 +16,7 @@ Perhaps the easiest way. Run the script directly if you have Python and `request
 
 **Run it like this**:
 
-    python3 cfddns.py <**Domain**> <**API_Key**> <**Record_Type**> 
+    python3 cfddns.py <Domain> <API_Key> <Record_Type> 
 
 Example:
 
