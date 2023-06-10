@@ -1,7 +1,7 @@
 import requests
 import json
 import re
-import sys
+import sys, time
 
 ################--CONFIG--#############################################################
 requests.packages.urllib3.util.connection.HAS_IPV6 = False
@@ -79,7 +79,7 @@ post_data = {
     "name": domain,
     "proxied": False,
     "type": record_type.upper(),
-    "comment": "DDNS Record updated using Cfddns",
+    "comment": "DDNS Record updated using Cfddns at " + time.strftime("%H:%M:%S on %Y-%m-%d", time.localtime(time.time())),
     "ttl": 0
 }
 # Update the record via PUT request
