@@ -79,7 +79,7 @@ post_data = {
     "name": domain,
     "proxied": False,
     "type": record_type.upper(),
-    "comment": "DDNS Record updated using Cfddns at " + time.strftime("%H:%M:%S on %Y-%m-%d", time.localtime(time.time())),
+    "comment": "DNS Record updated using Cfddns at " + time.strftime("%H:%M:%S on %Y-%m-%d", time.localtime(time.time())),
     "ttl": 0
 }
 # Update the record via PUT request
