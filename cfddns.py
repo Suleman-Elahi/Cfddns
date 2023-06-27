@@ -18,8 +18,8 @@ CF_TRACE = 'https://cloudflare.com/cdn-cgi/trace'
 #######################################################################################
 
 headers = {
-    'Content-Type': 'application/json',
-	'Authorization': f'Bearer {api_key}',
+    "Content-Type": "application/json",
+    "Authorization": f"Bearer {api_key}",
 }
 
 def get_zone_id(domain, api_key, headers):
