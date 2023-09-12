@@ -1,7 +1,7 @@
 FROM python:3.8-slim-buster
 WORKDIR /app
 
-COPY cfddns.py /app/cfddns.py
+COPY dyndns_client_cloudflare.py /app/dyndns_client_cloudflare.py
 COPY requirements.txt /app/requirements.txt
 COPY crontab /etc/cron.d/crontab
 
