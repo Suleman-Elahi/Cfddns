@@ -1,56 +1,82 @@
+# Cloudflare Dynamic DNS Update
 
-# Cfddns
+This is a fork of [Cfddns](https://github.com/Suleman-Elahi/Cfddns) by [Suleman](https://github.com/Suleman-Elahi). Awesome stuff! Give them a follow!
 
-![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1686394440/Cfddns.png)
+---
 
-A no nonsense python script to treat Cloudflare as a dynamic DNS. Run as Docker container/scheduled task.
+This Docker container automates the process of updating a Cloudflare DNS record to match your public IP address. It is especially useful if you have a domain pointing to a dynamic IP address that changes regularly.
 
-I couldn't find a decent tool to dynamically update IP address in my Cloudflare account, so I created this one here. It is based on Cloudflare and by default is set to update the IP address hourly. But the schedule can be changed and record type as well.
 
-**Only requires domain and API token !!**
+## Features
 
-There are various ways to set it up.
+- Uses the Cloudflare API to fetch and update DNS records.
+- Supports both IPv4 and IPv6.
+- Easily configurable via environment variables.
+- Runs as a cron job within the container.
 
-## 1. Run Directly
-Perhaps the easiest way. Run the script directly if you have Python and `requests` library installed. Or, grab one of the binary releases if you don't want to install Python and dependencies.
+## Prerequisites
 
-**Run it like this**:
+- Docker
+- Cloudflare account with domain setup
+- API token with permissions to read and update DNS records for your Cloudflare domain.
 
-    python3 cfddns.py <Domain> <API_Key> <Record_Type> 
+## Building the Docker Image
 
-Example:
+1. Clone this repository:
+   ```bash
+   git clone [Your Repo URL]
+   cd [Your Repo Folder Name]
+   ```
 
-    python3 cfddns.py test.example.com sjdgbueioengfai-sdfjkbf A
-![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1685180449/cfddn.png)
-## 2. Via Task Scheduler on Windows
-I have already provided the `task.scheduler.bat` file in the repository.
-Open it with a text editor and change the path to the script and path to the python.
+2. Build the Docker image:
+   ```bash
+   docker build -t [your-dockerhub-username]/dyndns-client-cloudflare .
+   ```
 
-Next, just double click on the bat file and a task will be created.
+## Usage
 
-![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1681814326/taskschcfddns.png)
+1. Run the Docker container:
 
-This task will run hourly, but you can also tweak the schedule to make it run at desired schedule.
-## 3. Run as a Docker Container
-There is a Dockerfile so that you can make it run as a docker container.
-Make sure that Docker is installed. On Debian and Ubuntu based systems and servers, you can install Docker via Snapcraft by running:
+   ```bash
+   docker run -d \
+   -e DOMAIN=your.domain.com \
+   -e CLOUDFLARE_API_KEY=your_cloudflare_api_key \
+   -e RECORD_TYPE=A \
+   [your-dockerhub-username]/dyndns-client-cloudflare
+   ```
 
-    snap install docker
+   Replace `your.domain.com`, `your_cloudflare_api_key`, and `A` with your specific details.
 
-Here's how.
+2. The script will run at the start of every hour, checking and updating your Cloudflare DNS record if necessary. You can view logs using:
 
- 1. Clone the repo: `git clone https://github.com/Suleman-Elahi/Cfddns`
- 2. Change directory: `cd Cfddns`
- 3. Edit the **crontab** file. Enter your API Key, Record Type to update, and domain.
- 4. Build image: `docker build -t cfddns .`
- 5. Run the container: `docker run -d --name cfddns --restart=always cfddns`
- 
- Or, you can also run it in interactive mode:
+   ```bash
+   docker logs [container_id or container_name]
+   ```
 
-    docker run -it --rm cfddns
-**Note**: On personal computers, you may need to use `sudo docker` instead of just `docker` in the above commands.
+## Configuration
 
---------------------------------
-The script only updates the IP if your machine's public IP and IP on Cloudflare do not match.
+- `DOMAIN`: The domain you want to update, e.g., `subdomain.domain.com`.
+- `CLOUDFLARE_API_KEY`: Your Cloudflare API token.
+- `RECORD_TYPE`: The type of DNS record to update, e.g., `A` for IPv4 addresses or `AAAA` for IPv6.
 
-PRs are welcome :)
+## License
+
+Copyright (c) 2023 Suleman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
