@@ -47,7 +47,6 @@ if record_type.upper() in ['A','MX','NS']:
 else:
    requests.packages.urllib3.util.connection.HAS_IPV6 = True
    ip = get_public_ipv6()
-   requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 zone_id = get_zone_id(re.sub(r'^.+?\.(?=[^\.]+\.[^\.]+$)', '', domain), api_key, headers)
 
