@@ -30,14 +30,14 @@ Next, just double click on the bat file and a task will be created.
 
 ![enter image description here](https://res.cloudinary.com/suleman/image/upload/v1681814326/taskschcfddns.png)
 
-This task will run hourly, but you can also tweak the schedule to make it run at desired schedule.
+This task will run hourly, but you can also tweak the schedule to make it run at desired interval.
 ## 3. Run as a Docker Container
 There is a Dockerfile so that you can make it run as a docker container.
 Make sure that Docker is installed. On Debian and Ubuntu based systems and servers, you can install Docker via Snapcraft by running:
 
     snap install docker
 
-Here's how.
+Here's next.
 
  1. Clone the repo: `git clone https://github.com/Suleman-Elahi/Cfddns`
  2. Change directory: `cd Cfddns`
