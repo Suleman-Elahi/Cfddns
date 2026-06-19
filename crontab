@@ -1,3 +1,3 @@
 # START CRON JOB
-0 * * * * /usr/local/bin/python3 /app/cfddns.py YourDomainHere APIKeyHere RecordTypeHere > /proc/1/fd/1 2>/proc/1/fd/2
+* * * * * /usr/local/bin/python3 /app/cfddns.py __DOMAIN__ __API_KEY__ __RECORD_TYPE__ > /proc/1/fd/1 2>/proc/1/fd/2
 # END CRON JOB

@@ -12,7 +12,7 @@ I couldn't find a decent tool to dynamically update IP address in my Cloudflare 
 There are various ways to set it up.
 
 ## 1. Run Directly
-Perhaps the easiest way. Run the script directly if you have Python and `requests` library installed. Or, grab one of the binary releases if you don't want to install Python and dependencies.
+Perhaps the easiest way. Run the script directly with Python (no external dependencies needed). Or, grab one of the binary releases if you don't want to install Python.
 
 **Run it like this**:
 
@@ -41,13 +41,48 @@ Here's next.
 
  1. Clone the repo: `git clone https://github.com/Suleman-Elahi/Cfddns`
  2. Change directory: `cd Cfddns`
- 3. Edit the **crontab** file. Enter your API Key, Record Type to update, and domain.
- 4. Build image: `docker build -t cfddns .`
- 5. Run the container: `docker run -d --name cfddns --restart=always cfddns`
- 
- Or, you can also run it in interactive mode:
+ 3. Build image: `docker build -t cfddns .`
+ 4. Run the container with your credentials:
 
-    docker run -it --rm cfddns
+```bash
+docker run -d --name cfddns --restart=always \
+  -e CFDDNS_DOMAIN=yourdomain.com \
+  -e CFDDNS_API_KEY=your_api_token_here \
+  -e CFDDNS_RECORD_TYPE=A \
+  cfddns
+```
+
+Or, run in interactive mode to test:
+
+```bash
+docker run -it --rm \
+  -e CFDDNS_DOMAIN=yourdomain.com \
+  -e CFDDNS_API_KEY=your_api_token_here \
+  -e CFDDNS_RECORD_TYPE=A \
+  cfddns
+```
+
+### Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `CFDDNS_DOMAIN` | Yes | The full domain to update (e.g. `sub.example.com`) |
+| `CFDDNS_API_KEY` | Yes | Cloudflare API token with DNS edit permissions |
+| `CFDDNS_RECORD_TYPE` | Yes | DNS record type: `A`, `AAAA`, `MX`, or `NS` |
+
+### IPv6 (AAAA Records)
+
+Docker's default bridge network does not route IPv6. Use host networking:
+
+```bash
+docker run -d --name cfddns --restart=always \
+  --network host \
+  -e CFDDNS_DOMAIN=yourdomain.com \
+  -e CFDDNS_API_KEY=your_api_token_here \
+  -e CFDDNS_RECORD_TYPE=AAAA \
+  cfddns
+```
+
 **Note**: On personal computers, you may need to use `sudo docker` instead of just `docker` in the above commands.
 
 --------------------------------
